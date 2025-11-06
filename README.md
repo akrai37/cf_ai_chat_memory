@@ -174,7 +174,54 @@ Then commit and push to GitHub - Pages will auto-redeploy!
 
 ---
 
-## 💡 How It's Different from AWS
+## � Understanding Session Memory
+
+### How Memory Works
+- **Session ID:** Generated randomly when you load the page
+- **Storage:** Stored in Cloudflare KV with 24-hour expiration
+- **Scope:** Memory is **per-session**, not per-user
+- **History Limit:** Keeps last 10 messages to stay within limits
+
+### Important Limitations ⚠️
+
+**What happens when you refresh the page?**
+- ❌ Refreshing generates a NEW session ID
+- ❌ Old chat history is orphaned
+- ❌ You start with a fresh conversation
+
+**Example:**
+```
+Session 1: "My name is Alice"
+[Refresh page]
+Session 2: "What's my name?" → AI doesn't know (different session)
+```
+
+### Current Architecture
+This app uses **stateless, temporary sessions** by design:
+- Great for demos, testing, and learning Cloudflare
+- Perfect for short-lived conversations
+- No authentication needed
+- Minimal infrastructure
+
+### Future Enhancement Options
+To retain memory across page refreshes:
+
+1. **localStorage (Simple - No Backend Needed)**
+   - Save session ID in browser storage
+   - Same browser = same conversation
+   - Easy to implement
+
+2. **URL-based Sessions (Shareable)**
+   - Generate URL: `?sessionId=abc123`
+   - Bookmark to keep conversation
+   - Share with others
+
+3. **User Authentication (Production)**
+   - Sign-in system (GitHub/Google OAuth)
+   - Memory tied to user account
+   - Access anywhere, anytime
+
+---
 
 | Feature | Cloudflare | AWS Lambda |
 |---------|-----------|----------|
