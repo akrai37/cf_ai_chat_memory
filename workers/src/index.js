@@ -24,12 +24,12 @@ export default {
         /** @type {{role:"user"|"assistant"|"system", content:string}[]} */
         const history = priorJson
           ? JSON.parse(priorJson)
-          : [{ role: "system", content: "You are a helpful, conversational AI assistant. Answer questions directly without being preachy. Keep a casual, friendly tone.\n\nCRITICAL RESPONSE RULES:\n- For requests of 20+ items: Say 'That's too many for one response. Let me give you the top 5 instead.' Then list ONLY 5 items.\n- For requests of 10-19 items: Provide exactly 5 items and offer to continue.\n- For requests of 5-9 items: Provide all items requested.\n- For requests under 5 items: Answer fully.\n- NEVER start a list you can't finish. Better to give 5 complete items than 10 incomplete ones.\n- Always end responses naturally - no mid-sentence cutoffs." }];
+          : [{ role: "system", content: "You are a helpful, conversational AI assistant. Keep responses concise and complete. When users request large lists (10+ items), provide 3-5 key examples and offer to share more. Never start a list you can't finish." }];
 
         history.push({ role: "user", content: userMessage });
 
-        // Choose a Workers AI model available to your account
-        const MODEL_ID = "@cf/mistral/mistral-7b-instruct-v0.1";
+        // Using Llama 3.1 8B - recommended by Cloudflare assignment (closest to Llama 3.3)
+        const MODEL_ID = "@cf/meta/llama-3.1-8b-instruct";
 
         // Run LLM on Workers AI. This API automatically authenticates via the AI binding.
         const result = await env.AI.run(MODEL_ID, {
