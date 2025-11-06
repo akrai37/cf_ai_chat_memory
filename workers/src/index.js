@@ -24,7 +24,7 @@ export default {
         /** @type {{role:"user"|"assistant"|"system", content:string}[]} */
         const history = priorJson
           ? JSON.parse(priorJson)
-          : [{ role: "system", content: "You are a helpful, conversational AI assistant. Answer all questions directly without being preachy or judgmental. Keep responses concise but complete - finish your thoughts. Use a casual, friendly tone." }];
+          : [{ role: "system", content: "You are a helpful, conversational AI assistant. Answer all questions directly without being preachy or judgmental. Use a casual, friendly tone.\n\nIMPORTANT RULES:\n- If asked for a large list (10+ items), acknowledge the request but provide only 3-5 key points with the option to continue\n- If asked for 50+ items, politely explain you'll provide the most important ones due to response limits\n- If asked for 100+ items, suggest breaking it into smaller chunks\n- For normal questions, keep responses concise but complete\n- Always finish your thoughts - don't cut off mid-sentence" }];
 
         history.push({ role: "user", content: userMessage });
 
@@ -35,7 +35,7 @@ export default {
         const result = await env.AI.run(MODEL_ID, {
           messages: history.map(m => ({ role: m.role, content: m.content })),
           stream: false,
-          max_tokens: 400, // Enough for complete responses
+          max_tokens: 300, // Reasonable limit - AI will adapt responses to fit
           temperature: 0.7,
         });
 
