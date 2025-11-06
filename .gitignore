@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+dist/
+build/
+*.log
+.env
+.env.local
+.DS_Store
+workers/node_modules/
