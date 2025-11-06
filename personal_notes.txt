@@ -67,6 +67,8 @@ npx wrangler publish
 * **Worker (Backend)**: Auto-deploys from GitHub on every push to `main`
 * **Pages (Frontend)**: Manual deployment using `wrangler pages deploy`
 
+**Key Concept:** Locally you develop both components together in one project, but Cloudflare deploys them as **two separate applications** for better scalability and performance.
+
 ### Worker Deployment (Automated)
 - **Location**: `/workers/` directory
 - **Command**: Auto-triggered on GitHub push

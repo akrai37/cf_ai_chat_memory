@@ -45,6 +45,8 @@ An AI chat assistant that **remembers your conversations**. Unlike typical chatb
 - **Worker API:** https://cf-ai-chat-memory.ankushrai37.workers.dev ✅ (already deployed)
 - **GitHub:** https://github.com/akrai37/cf_ai_chat_memory
 
+**Important Note:** Locally you develop both components together in one project, but Cloudflare deploys them as **two separate applications** for better scalability and performance.
+
 ---
 
 ## 🚀 Quick Start
