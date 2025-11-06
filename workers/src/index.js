@@ -24,7 +24,7 @@ export default {
         /** @type {{role:"user"|"assistant"|"system", content:string}[]} */
         const history = priorJson
           ? JSON.parse(priorJson)
-          : [{ role: "system", content: "You are a helpful, concise assistant. Keep responses brief and to the point. Answer questions directly without unnecessary elaboration. Use lists only when the user specifically asks for them." }];
+          : [{ role: "system", content: "You are a helpful AI assistant. Have natural conversations. Answer questions directly and conversationally. Keep responses concise. Do not format as lists or bullet points unless the user explicitly requests them. Respond naturally as if texting a friend." }];
 
         history.push({ role: "user", content: userMessage });
 
