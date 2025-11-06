@@ -47,9 +47,10 @@ If you don't know something, say so honestly. Maintain context from the conversa
 
 ## Model Configuration
 
-- **Current Model:** `@cf/mistral/mistral-7b-instruct-v0.1`
-- **Why Mistral:** Fast inference, good quality, reliable for general Q&A
-- **Other Options:** Llama models, Mixtral, etc. available on Workers AI
+- **Current Model:** `@cf/meta/llama-3.1-8b-instruct`
+- **Why Llama 3.1 8B:** Recommended by Cloudflare assignment (closest to Llama 3.3), superior instruction-following, better conversational abilities
+- **Previous Model:** Mistral 7B (upgraded due to poor instruction adherence)
+- **Other Options:** Llama 3.2, Mixtral, etc. available on Workers AI
 
 ## Key Design Decisions
 

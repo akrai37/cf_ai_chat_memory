@@ -2,8 +2,8 @@
 
 ##  What I Built
 
-This is a **general-purpose AI chat assistant** that runs entirely on **Cloudflare’s edge network**.
-It uses **Mistral 7B (via Workers AI)** as the AI model and a simple **HTML/CSS/JS** interface — no frameworks.
+This is a **general-purpose AI chat assistant** that runs entirely on **Cloudflare's edge network**.
+It uses **Llama 3.1 8B (via Workers AI)** as the AI model and a simple **HTML/CSS/JS** interface — no frameworks.
 
 Basically:
 A smart chatbot that **remembers what I say**, unlike basic bots that forget after every message.
@@ -42,7 +42,7 @@ That “memory” lives in Cloudflare KV and is tied to each session ID.
 
 * **Frontend:** HTML, CSS, JS (no React or framework)
 * **Backend:** Cloudflare Worker (JavaScript)
-* **Model:** @cf/mistral/mistral-7b-instruct-v0.1
+* **Model:** @cf/meta/llama-3.1-8b-instruct
 * **Storage:** Cloudflare KV (for session memory)
 * **Hosting:** Cloudflare Pages + Workers
 
@@ -214,7 +214,7 @@ but they are **smaller, more distributed, and automatically managed**, not regio
 ### 📦 **In your app’s case**
 
 * The Worker code runs globally on the edge (not in one region).
-* The AI model (Mistral) executes on Cloudflare’s **Workers AI nodes** — also globally distributed.
+* The AI model (Llama 3.1 8B) executes on Cloudflare's **Workers AI nodes** — also globally distributed.
 * The memory (KV storage) replicates across the network automatically.
 
 So the app’s data lives on Cloudflare’s infrastructure,
