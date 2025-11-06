@@ -1,6 +1,6 @@
 # cf_ai_chat_memory
 
-🚀 **[Live Demo](https://cf-ai-chat-memory.pages.dev/)**
+🚀 **[Live Demo](https://c7969915.cf-ai-chat-memory.pages.dev/)**
 
 **A persistent AI chat assistant built entirely on Cloudflare** — the platform for edge computing, serverless inference, and distributed state management.
 
@@ -74,7 +74,7 @@ AI: Provides 3-5 key points + "Want more?" ✅
 ## 🌍 Deployment URLs
 
 **Live Application:**
-- **Frontend:** https://cf-ai-chat-memory.pages.dev (connect via GitHub to Cloudflare Pages)
+- **Frontend:** https://c7969915.cf-ai-chat-memory.pages.dev (connect via GitHub to Cloudflare Pages)
 - **Worker API:** https://cf-ai-chat-memory.ankushrai37.workers.dev ✅ (already deployed)
 - **GitHub:** https://github.com/akrai37/cf_ai_chat_memory
 
