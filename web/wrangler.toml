@@ -1,7 +1,0 @@
-pages_build_caching = true
-
-[env.production]
-name = "cf-ai-chat-memory"
-routes = [
-  { pattern = "/*", zone_name = "ankushrai37.workers.dev" }
-]
