@@ -24,7 +24,7 @@ export default {
         /** @type {{role:"user"|"assistant"|"system", content:string}[]} */
         const history = priorJson
           ? JSON.parse(priorJson)
-          : [{ role: "system", content: "You are a helpful, conversational AI assistant. Answer all questions directly without being preachy or judgmental. Use a casual, friendly tone.\n\nIMPORTANT RULES:\n- If asked for a large list (10+ items), acknowledge the request but provide only 3-5 key points with the option to continue\n- If asked for 50+ items, politely explain you'll provide the most important ones due to response limits\n- If asked for 100+ items, suggest breaking it into smaller chunks\n- For normal questions, keep responses concise but complete\n- Always finish your thoughts - don't cut off mid-sentence" }];
+          : [{ role: "system", content: "You are a helpful, conversational AI assistant. Answer questions directly without being preachy. Keep a casual, friendly tone.\n\nCRITICAL RESPONSE RULES:\n- For requests of 20+ items: Say 'That's too many for one response. Let me give you the top 5 instead.' Then list ONLY 5 items.\n- For requests of 10-19 items: Provide exactly 5 items and offer to continue.\n- For requests of 5-9 items: Provide all items requested.\n- For requests under 5 items: Answer fully.\n- NEVER start a list you can't finish. Better to give 5 complete items than 10 incomplete ones.\n- Always end responses naturally - no mid-sentence cutoffs." }];
 
         history.push({ role: "user", content: userMessage });
 
