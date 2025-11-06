@@ -1,2 +1,0 @@
-# This file tells Cloudflare Pages this is a static site, not a Worker project
-# Pages will serve files from this directory without running any build commands
