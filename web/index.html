@@ -29,7 +29,7 @@
       padding-bottom: 1.5rem;
     }
     h1 { 
-      font-size: 2.2rem; 
+      font-size: 1.8rem; 
       font-weight: 700;
       margin-bottom: 0.5rem;
       background: linear-gradient(90deg, #ffffff 0%, #b4bcc4 100%);
@@ -39,7 +39,7 @@
     }
     .subtitle {
       color: #888;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       display: flex;
       gap: 0.5rem;
     }
@@ -66,9 +66,101 @@
       border-radius: 12px; 
       word-wrap: break-word; 
       max-width: 80%;
-      font-size: 1.05rem;
-      line-height: 1.5;
+      font-size: 0.95rem;
+      line-height: 1.6;
       animation: fadeIn 0.3s ease-in;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .bubble-content {
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+    .bubble-time {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-top: 0.3rem;
+    }
+    .bubble-text {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    }
+    .bubble-list {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .bubble-list li {
+      margin: 0.4rem 0;
+      line-height: 1.6;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .bubble-list ul {
+      list-style: disc;
+    }
+    .bubble-list ol {
+      list-style: decimal;
+    }
+    .bubble-code {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.8rem;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      overflow-x: auto;
+      margin: 0.5rem 0;
+    }
+    .bubble-strong {
+      font-weight: 600;
+      color: #ff7b42;
+    }
+    @media (max-width: 768px) {
+      .bubble {
+        max-width: 85%;
+        font-size: 0.95rem;
+        padding: 0.8rem 1rem;
+        margin: 0 0.5rem;
+      }
+      .user { max-width: 75%; }
+      .bot { max-width: 90%; }
+      #log { margin: 1rem 0.5rem; }
+      form { margin: 0 0.5rem; }
+      input { font-size: 0.95rem; }
+      button { font-size: 0.95rem; padding: 0.8rem 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .bubble {
+        max-width: 88%;
+        font-size: 0.9rem;
+        padding: 0.7rem 0.9rem;
+        margin: 0 0.4rem;
+      }
+      .container { padding: 0.8rem; }
+      h1 { font-size: 1.6rem; }
+      .subtitle { font-size: 0.85rem; }
+      #log { 
+        margin: 0.8rem 0.4rem;
+        padding: 1rem;
+      }
+      form { 
+        margin: 0 0.4rem;
+        padding: 0.8rem;
+        gap: 0.6rem;
+      }
+      input { 
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+      }
+      button { 
+        font-size: 0.9rem; 
+        padding: 0.8rem 1.2rem;
+      }
+      .bubble-text { font-size: 0.9rem; }
+      .bubble-list li { font-size: 0.9rem; }
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -116,10 +208,10 @@
     }
     input { 
       flex: 1; 
-      padding: 1rem 1.2rem; 
+      padding: 0.9rem 1rem; 
       border-radius: 8px; 
       border: none;
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       background: #2a3141;
       color: #f5f5f5;
       outline: none;
@@ -131,11 +223,11 @@
     }
     input::placeholder { color: #666; }
     button { 
-      padding: 1rem 2rem; 
+      padding: 0.9rem 1.8rem; 
       border-radius: 8px; 
       border: none;
       cursor: pointer; 
-      font-size: 1.05rem; 
+      font-size: 0.95rem; 
       font-weight: 600;
       background: linear-gradient(135deg, #ff7b42 0%, #ff6b35 100%);
       color: white;
@@ -174,14 +266,143 @@
     const f = document.getElementById("f");
     const msg = document.getElementById("msg");
 
+    // Format time as HH:MM
+    const getTime = () => {
+      const now = new Date();
+      return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    };
+
+    // Parse markdown-like formatting and auto-format lists
+    const parseMarkdown = (text) => {
+      let html = text;
+      
+      // Bold: **text** → strong
+      html = html.replace(/\*\*(.*?)\*\*/g, '<span class="bubble-strong">$1</span>');
+      
+      // Code blocks: ```code``` → pre
+      html = html.replace(/```([\s\S]*?)```/g, '<div class="bubble-code">$1</div>');
+      
+      // Inline code: `code` → code
+      html = html.replace(/`([^`]+)`/g, '<code style="background: rgba(255,123,66,0.2); padding: 0.2rem 0.4rem; border-radius: 3px;">$1</code>');
+      
+      // Split by line breaks to process line by line
+      const lines = html.split(/\n+/);
+      let result = [];
+      let listItems = [];
+      let listType = null; // 'numbered' or 'bullet'
+      
+      lines.forEach((line) => {
+        line = line.trim();
+        if (!line) return;
+        
+        // Match numbered list: "1. " or "1) "
+        const numberedMatch = line.match(/^\d+[\.\)]\s+(.*)/);
+        // Match bullet list: "* " or "- "
+        const bulletMatch = line.match(/^[\*\-]\s+(.*)/);
+        // Match colon format: "Title: content"
+        const colonMatch = line.match(/^([^:]+):\s+(.*)/);
+        
+        if (numberedMatch) {
+          // Numbered list item
+          if (listType !== 'numbered') {
+            // Close previous list
+            if (listItems.length > 0) {
+              if (listType === 'bullet') {
+                result.push(`<ul class="bubble-list">${listItems.join('')}</ul>`);
+              } else if (listType === 'colon') {
+                result.push(`<ol class="bubble-list">${listItems.join('')}</ol>`);
+              }
+              listItems = [];
+            }
+            listType = 'numbered';
+          }
+          listItems.push(`<li>${numberedMatch[1]}</li>`);
+        } else if (bulletMatch) {
+          // Bullet list item
+          if (listType !== 'bullet') {
+            if (listItems.length > 0) {
+              if (listType === 'numbered') {
+                result.push(`<ol class="bubble-list">${listItems.join('')}</ol>`);
+              } else if (listType === 'colon') {
+                result.push(`<ol class="bubble-list">${listItems.join('')}</ol>`);
+              }
+              listItems = [];
+            }
+            listType = 'bullet';
+          }
+          listItems.push(`<li>${bulletMatch[1]}</li>`);
+        } else if (colonMatch && line.length > 15) {
+          // Colon format: "Title: content"
+          if (listType && listType !== 'colon') {
+            if (listItems.length > 0) {
+              if (listType === 'numbered') {
+                result.push(`<ol class="bubble-list">${listItems.join('')}</ol>`);
+              } else if (listType === 'bullet') {
+                result.push(`<ul class="bubble-list">${listItems.join('')}</ul>`);
+              }
+              listItems = [];
+            }
+          }
+          listType = 'colon';
+          const title = colonMatch[1].trim();
+          const content = colonMatch[2].trim();
+          listItems.push(`<li><strong>${title}:</strong> ${content}</li>`);
+        } else {
+          // Regular paragraph
+          if (listItems.length > 0) {
+            if (listType === 'numbered' || listType === 'colon') {
+              result.push(`<ol class="bubble-list">${listItems.join('')}</ol>`);
+            } else if (listType === 'bullet') {
+              result.push(`<ul class="bubble-list">${listItems.join('')}</ul>`);
+            }
+            listItems = [];
+            listType = null;
+          }
+          result.push(`<p style="margin: 0.5rem 0; line-height: 1.6;">${line}</p>`);
+        }
+      });
+      
+      // Close any remaining list
+      if (listItems.length > 0) {
+        if (listType === 'numbered' || listType === 'colon') {
+          result.push(`<ol class="bubble-list">${listItems.join('')}</ol>`);
+        } else if (listType === 'bullet') {
+          result.push(`<ul class="bubble-list">${listItems.join('')}</ul>`);
+        }
+      }
+      
+      html = result.join('');
+      html = `<div class="bubble-text">${html}</div>`;
+      
+      return html;
+    };
+
     const add = (text, cls, isLoading = false) => {
       const d = document.createElement("div");
       d.className = `bubble ${cls}`;
+      
       if (isLoading) {
         d.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
       } else {
-        d.textContent = text;
+        const contentDiv = document.createElement("div");
+        contentDiv.className = "bubble-content";
+        
+        if (cls === "bot") {
+          // Parse markdown for bot responses
+          contentDiv.innerHTML = parseMarkdown(text);
+        } else {
+          contentDiv.textContent = text;
+        }
+        
+        d.appendChild(contentDiv);
+        
+        // Add timestamp
+        const timeDiv = document.createElement("div");
+        timeDiv.className = "bubble-time";
+        timeDiv.textContent = getTime();
+        d.appendChild(timeDiv);
       }
+      
       log.appendChild(d);
       d.scrollIntoView({ behavior: "smooth", block: "end" });
       return d;
@@ -204,7 +425,11 @@
           body: JSON.stringify({ message: text }),
         });
         const data = await res.json();
-        loadingBubble.textContent = data.reply || "(no reply)";
+        const reply = data.reply || "(no reply)";
+        
+        // Remove loading bubble and add response with proper formatting
+        loadingBubble.remove();
+        add(reply, "bot");
       } catch (err) {
         loadingBubble.textContent = "Error: " + String(err);
       }

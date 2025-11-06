@@ -35,7 +35,7 @@ export default {
         const result = await env.AI.run(MODEL_ID, {
           messages: history.map(m => ({ role: m.role, content: m.content })),
           stream: false,
-          max_tokens: 1024, // Allow longer responses for lists
+          max_tokens: 512, // Shorter responses for faster replies
         });
 
         let assistantText = "";

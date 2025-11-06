@@ -1,5 +1,3 @@
-
-
 # 🌩️ My Cloudflare AI Chat App — Personal Notes
 
 ##  What I Built
@@ -60,6 +58,39 @@ npx serve .          # Run the frontend
 ```
 npx wrangler publish
 ```
+
+---
+
+## 🚀 Deployment Setup
+
+### Current Architecture
+* **Worker (Backend)**: Auto-deploys from GitHub on every push to `main`
+* **Pages (Frontend)**: Manual deployment using `wrangler pages deploy`
+
+### Worker Deployment (Automated)
+- **Location**: `/workers/` directory
+- **Command**: Auto-triggered on GitHub push
+- **URL**: `https://cf-ai-chat-memory.workers.dev`
+- **Root Directory**: `/workers`
+- **Deploy Command**: `npx wrangler deploy`
+
+### Pages Deployment (Manual)
+- **Location**: `/web/` directory  
+- **Command**: `wrangler pages deploy web --project-name=cf-ai-chat-memory`
+- **URL**: `https://cf-ai-chat-memory.pages.dev`
+- **Process**: Run locally from `/web/` folder, uploads directly to Cloudflare
+
+### Deployment Workflow
+1. **Make changes** to code locally
+2. **Push to GitHub** → Worker auto-deploys
+3. **Run manual command** → Pages deploys
+4. **Test live site** at both URLs
+
+### Key Points
+- Worker deployment is connected to GitHub (automatic)
+- Pages deployment is manual (run `wrangler pages deploy` when needed)
+- Both use the same codebase but deploy separately
+- No API tokens needed for manual Pages deployment
 
 ---
 
