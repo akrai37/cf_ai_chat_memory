@@ -1,5 +1,7 @@
 # cf_ai_chat_memory
 
+🚀 **[Live Demo](https://cf-ai-chat-memory.pages.dev/)**
+
 **A persistent AI chat assistant built entirely on Cloudflare** — the platform for edge computing, serverless inference, and distributed state management.
 
 - **LLM:** Llama 3.1 8B via Workers AI (recommended by Cloudflare assignment)
@@ -41,7 +43,7 @@ An AI chat assistant that **remembers your conversations**. Unlike typical chatb
 
 ## 🤖 Why Llama 3.1 8B?
 
-We upgraded from Mistral 7B to **Llama 3.1 8B** for several key reasons:
+I upgraded from Mistral 7B to **Llama 3.1 8B** for several key reasons:
 
 ### **Assignment Alignment**
 - ✅ Cloudflare assignment recommends using **Llama 3.3** (or similar)
