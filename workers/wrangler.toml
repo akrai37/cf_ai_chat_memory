@@ -1,0 +1,14 @@
+name = "cf-ai-chat-memory"
+main = "src/index.js"
+compatibility_date = "2025-10-10"
+
+[ai]
+binding = "AI"
+
+# Fill in the KV namespace IDs after running:
+#   npx wrangler kv namespace create SESSIONS
+# The CLI will print 'id' and 'preview_id' you can copy here.
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "db0f131031084fc983035cf03eb504c3"
+preview_id = "db0f131031084fc983035cf03eb504c3"
