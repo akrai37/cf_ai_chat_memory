@@ -38,6 +38,15 @@ An AI chat assistant that **remembers your conversations**. Unlike typical chatb
 
 ---
 
+## 🌍 Deployment URLs
+
+**Live Application:**
+- **Frontend:** https://cf-ai-chat-memory.pages.dev (connect via GitHub to Cloudflare Pages)
+- **Worker API:** https://cf-ai-chat-memory.ankushrai37.workers.dev ✅ (already deployed)
+- **GitHub:** https://github.com/akrai37/cf_ai_chat_memory
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -130,30 +139,38 @@ Edit `workers/src/index.js`:
 
 ## 🌍 Deploy to Production
 
-### Deploy Worker
+### Deploy Worker (Already Done ✅)
 ```bash
 cd workers
-npx wrangler publish
-# Get your Worker URL from the output
+npx wrangler deploy
+# Your Worker URL: https://cf-ai-chat-memory.ankushrai37.workers.dev
 ```
 
-### Deploy Frontend (Option 1: Cloudflare Pages)
+### Deploy Frontend to Cloudflare Pages
+
+**Easiest Method: Connect GitHub**
+1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com)
+2. Select **Pages** → **Connect to Git**
+3. Authorize GitHub and select `cf_ai_chat_memory` repo
+4. Set **Build settings:**
+   - Build command: (leave empty)
+   - Build output directory: `web`
+5. Click **Save and Deploy**
+6. Your site will be available at: `cf-ai-chat-memory.pages.dev`
+
+**Manual Deployment:**
 ```bash
-# Connect your GitHub repo to Cloudflare Pages
-# Set build command: (none)
-# Set publish directory: web/
-# Auto-deploys on push!
+cd web
+npx wrangler pages deploy . --project-name cf-ai-chat-memory
 ```
 
-### Deploy Frontend (Option 2: Any Static Host)
-- Upload `/web/index.html` to any web server
-- Update `WORKER_URL` in the HTML to your published Worker URL
-
-### Update WORKER_URL
-Edit `web/index.html` line 66:
+### Update WORKER_URL After Deployment
+Once your frontend is deployed, update the Worker URL in `web/index.html`:
 ```javascript
-const WORKER_URL = "https://your-worker.your-account.workers.dev";
+const WORKER_URL = "https://cf-ai-chat-memory.ankushrai37.workers.dev";
 ```
+
+Then commit and push to GitHub - Pages will auto-redeploy!
 
 ---
 
