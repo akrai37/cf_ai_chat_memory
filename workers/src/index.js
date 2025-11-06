@@ -24,7 +24,7 @@ export default {
         /** @type {{role:"user"|"assistant"|"system", content:string}[]} */
         const history = priorJson
           ? JSON.parse(priorJson)
-          : [{ role: "system", content: "You are a friendly AI chatbot. Reply in 1-2 short sentences. Use a casual, natural tone like you're texting. Never use lists, bullet points, or numbered formats. Just chat normally." }];
+          : [{ role: "system", content: "You are a helpful, conversational AI assistant. Answer all questions directly and naturally without being preachy or judgmental. Keep responses concise (2-3 sentences). Use a casual, friendly tone. Avoid lists unless specifically requested." }];
 
         history.push({ role: "user", content: userMessage });
 
@@ -35,8 +35,8 @@ export default {
         const result = await env.AI.run(MODEL_ID, {
           messages: history.map(m => ({ role: m.role, content: m.content })),
           stream: false,
-          max_tokens: 150, // Even shorter for natural responses
-          temperature: 0.7, // More creative/natural
+          max_tokens: 256, // Balanced: not too long, not cut off
+          temperature: 0.8, // More creative/natural responses
         });
 
         let assistantText = "";
