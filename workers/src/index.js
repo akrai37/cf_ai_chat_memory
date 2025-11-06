@@ -24,7 +24,7 @@ export default {
         /** @type {{role:"user"|"assistant"|"system", content:string}[]} */
         const history = priorJson
           ? JSON.parse(priorJson)
-          : [{ role: "system", content: "You are a concise, helpful assistant." }];
+          : [{ role: "system", content: "You are a helpful assistant. Keep responses concise and well-formatted. When providing lists, be brief but complete all items." }];
 
         history.push({ role: "user", content: userMessage });
 
@@ -35,6 +35,7 @@ export default {
         const result = await env.AI.run(MODEL_ID, {
           messages: history.map(m => ({ role: m.role, content: m.content })),
           stream: false,
+          max_tokens: 1024, // Allow longer responses for lists
         });
 
         let assistantText = "";
